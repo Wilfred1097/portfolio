@@ -284,19 +284,19 @@
         <div class="container text-center">
             <h6 class="section-title mb-5">Contact Me</h6>
             <!-- contact form -->
-            <form action="" class="contact-form col-md-10 col-lg-8 m-auto">
+            <form class="contact-form col-md-10 col-lg-8 m-auto" onsubmit="sendEmail(event)">
                 <div class="form-row">
                     <div class="form-group col-sm-6">
-                        <input type="text" size="50" class="form-control" placeholder="Your Name" required>                 
+                        <input type="text" id="name" class="form-control" placeholder="Your Name" required>                 
                     </div>
                     <div class="form-group col-sm-6">
-                        <input type="email" class="form-control" placeholder="Enter Email"requried>                 
+                        <input type="email" id="email" class="form-control" placeholder="Enter Email" required>                 
                     </div>
                     <div class="form-group col-sm-12">
-                        <textarea name="comment" id="comment" rows="6"   class="form-control" placeholder="Write Something"></textarea>
+                        <textarea id="message" rows="6" class="form-control" placeholder="Write Something" required></textarea>
                     </div>
                     <div class="form-group col-sm-12 mt-3">
-                        <button type="submit" value="Send Message" class="btn btn-light rounded">Send</button>               
+                        <button type="submit" class="btn btn-light rounded">Send</button>               
                     </div>
                 </div>  
             </form><!-- end of contact form -->
@@ -323,28 +323,47 @@
 	<script src="assets/vendors/bootstrap/bootstrap.affix.js"></script>
 
     <!-- Meyawo js -->
+    <script src="assets/js/config.js"></script>
     <script src="assets/js/meyawo.js"></script>
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        (function() {
+            emailjs.init(EMAILJS_CONFIG.USER_ID); // Replace with your EmailJS User ID
+        })();
+
         function sendEmail(event) {
-            event.preventDefault(); // Prevent page refresh
+            event.preventDefault(); // Prevent form from reloading
 
-            Email.send({
-                SecureToken: "YOUR_SMTPJS_SECURE_TOKEN", // Get from smtpjs.com
-                To: "recipient@example.com", // Your email
-                From: document.querySelector('input[type="email"]').value,
-                Subject: "New Contact Form Message",
-                Body: `
-                    <b>Name:</b> ${document.querySelector('input[type="text"]').value} <br>
-                    <b>Email:</b> ${document.querySelector('input[type="email"]').value} <br>
-                    <b>Message:</b> ${document.querySelector('#comment').value}
-                `
-            }).then(message => alert("Message sent successfully!"));
+            var params = {
+                from_name: document.getElementById("name").value,
+                email_id: document.getElementById("email").value,
+                message: document.getElementById("message").value
+            };
+
+            emailjs.send(EMAILJS_CONFIG.SERVICE_ID, EMAILJS_CONFIG.TEMPLATE_ID, params)
+                .then(function(response) {
+                    Swal.fire({
+                        title: "Success!",
+                        text: "Your email has been sent successfully.",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    });
+                    console.log("Success:", response);
+                    document.querySelector(".contact-form").reset(); // Reset form
+                }, function(error) {
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Failed to send email. Please try again.",
+                        icon: "error",
+                        confirmButtonText: "OK"
+                    });
+                    console.log("Error:", error);
+                });
+
+            // Optional: Reset form fields after sending
+            document.querySelector(".contact-form").reset();
         }
-
-        document.querySelector(".contact-form").addEventListener("submit", sendEmail);
     </script>
-
-
 </body>
 </html>
