@@ -70,6 +70,19 @@
         border-color: white;
         box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
     }
+    @media (max-width: 768px) {
+        .portfolio-card-overlay {
+            opacity: 1 !important;
+            visibility: visible !important;
+            background: rgba(0, 0, 0, 0.7); /* Optional: Add a dark background */
+        }
+        
+        .portfolio-card-caption h4,
+        .portfolio-card-caption p {
+            color: white !important; /* Ensures text is readable */
+            text-align: center;
+        }
+    }
 </style>
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
 
@@ -269,7 +282,7 @@
                 </div>
             </div><!-- end of row -->
         </div><!-- end of container -->
-    </section> <!-- end of portfolio section -->
+    </section> 
 
     <!-- section -->
     <section class="section-sm bg-primary">
