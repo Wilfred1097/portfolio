@@ -16,6 +16,10 @@
         width: 100%;
         height: auto;
     }
+
+    .custom-navbar {
+        background: transparent;
+    }
     .portfolio-card {
         display: block;
         overflow: hidden;
@@ -155,6 +159,19 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
+    /* Mobile view navbar styles for dark mode */
+    @media (max-width: 1000px) {
+        [data-theme="dark"] .custom-navbar {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        [data-theme="dark"] .custom-navbar .nav {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    }
 
     [data-theme="dark"] .custom-navbar .nav .item .link {
         color: #fff;
